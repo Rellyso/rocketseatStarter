@@ -1,55 +1,22 @@
-var listElement = document.querySelector('#app ul')
-var inputElement = document.querySelector('#app input')
-var btnElement = document.querySelector('#app button')
-
-var todos = JSON.parse(localStorage.getItem('list_to_do')) || []
-
-function renderTodos() {
-    listElement.innerHTML = ''
-    
-    for (todo of todos) {
-        var createElement = document.createElement('li')
-        var createText = document.createTextNode(todo)
-
-        var linkElement = document.createElement('a')
-        var textLink = document.createTextNode('Excluir')
-
-        var pos = todos.indexOf(todo)
-
-        linkElement.setAttribute('onclick', 'removeTodo('+ pos +')')
+var idade = window.prompt('Digite sua idade')
 
 
-        linkElement.setAttribute('href', '#')
-        linkElement.appendChild(textLink)
+function checaIdade(idade) {
 
-        createElement.appendChild(createText)
-        createElement.appendChild(linkElement)
-        listElement.appendChild(createElement)
-    }
+    return new Promise(function (res, rej) {
+        if (idade >= 18) {
+            setTimeout(res('Maior que 18'), 2000)
+        } else {
+            setTimeout(rej('Menor que 18'), 2000)
+        }
+    })
+
 }
 
-renderTodos()
-
-
-btnElement.onclick = addTodo
-
-function addTodo() {
-    var inputText = inputElement.value
-
-    todos.push(inputText)
-    console.log(todos)
-
-    inputElement.value = ''
-    renderTodos()
-    saveLocalStorage()
-}
-
-function removeTodo(pos) {
-    todos.splice(pos, 1)
-    renderTodos()
-    saveLocalStorage()
-}
-
-function saveLocalStorage() {
-    localStorage.setItem('list_to_do', JSON.stringify(todos))
-}
+checaIdade(idade)
+    .then(res => {
+        console.log(res)
+    })
+    .catch(rej => {
+        console.log(rej)
+    })
